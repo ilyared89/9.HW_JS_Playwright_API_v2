@@ -1,14 +1,23 @@
 import { test } from '../src/helpers/fixtures/fixture';
 import { expect } from '@playwright/test';
-import { UserBuilder } from '../src/helpers/builders/index';
+import { ApiBuilder } from '../src/helpers/builders/index';
+
+
 //todo
 const urlApi = 'https://apichallenges.eviltester.com';
+const todoData = ApiBuilder.create()
+    .withTitle('title')
+    .withDoneStatus(false)
+    .withDescription('description')
+    .build();
+
+    /*Получить токен доступа*/
 test('Получить токен доступа', async ({
 	request
 }) => {
     // Получить ключ авторизации
     let response = await request.post(`${urlApi}/challenger`);
-    // КОнвертировать хедеры в Json
+    // Конвертировать хедеры в Json
     const headers = response.headers();
 
     // Вытащить токен из хедера
@@ -30,12 +39,7 @@ test('Получить токен доступа', async ({
         headers: {
             'X-CHALLENGER': key
         },
-        // унести в билдер
-        data: {
-            'title': 'title',
-            'doneStatus': false,
-            'description': 'description'
-        }
+        data: todoData
      });
      r = await response.json(); 
      expect(r.id).toBeTruthy();
