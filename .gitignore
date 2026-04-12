@@ -1,0 +1,65 @@
+# 📦 Зависимости
+node_modules/
+
+# 🧪 Playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+article-data.json
+
+# 🖼️ Артефакты тестов (скриншоты, видео)
+*.png
+*.webm
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+
+# 🔐 Сессии и секреты (НИКОГДА не коммитить!)
+tests/.auth/
+.env
+*.local.js
+*.env.local
+*.env.production
+
+# ⚙️ Конфиги редакторов (опционально)
+.editorconfig
+.prettierrc
+.prettierrc.js
+.eslintrc.*
+.vscode/
+.idea/
+
+# 🗄️ Временные и бэкап-файлы
+*.bak
+*.tmp
+*.log
+Thumbs.db
+.DS_Store
+
+# 📜 Скрипты отладки (локальные)
+check-pages.js
+debug-*.js
+findstr
+nulrmdir
+
+# 🚀 Системные файлы
+*.bat
+*.ps1
+*.sh
+
+# 📦 Сборка (если есть)
+dist/
+build/
+coverage/
+
+#  Fork
+.ForkSettings
+
+# Allure результаты (не коммитим)
+allure-results/
+allure-report/
+
+#  Но можно закоммитить конфигурацию:
+!allure.config.js
