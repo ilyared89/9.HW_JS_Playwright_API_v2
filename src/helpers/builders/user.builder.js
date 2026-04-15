@@ -1,7 +1,10 @@
 import { faker } from '@faker-js/faker';
 
 export class UserBuilder {
-
+	/* constructor()
+    {
+        this.role = 'admin';
+    } */
 	withEmail(email) {
 		this.email = email ?? faker.internet.email();
 		return this;

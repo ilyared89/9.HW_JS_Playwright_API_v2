@@ -8,6 +8,8 @@ blob-report/
 playwright/.cache/
 article-data.json
 .github/workflows/playwright.yml
+/playwright/.auth/
+check-list.js
 
 # 🖼️ Артефакты тестов (скриншоты, видео)
 *.png
@@ -64,3 +66,4 @@ allure-report/
 
 #  Но можно закоммитить конфигурацию:
 !allure.config.js
+auth-token.json
