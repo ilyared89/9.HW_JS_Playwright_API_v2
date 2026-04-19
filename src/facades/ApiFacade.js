@@ -1,6 +1,6 @@
 //src/facades/ApiFacade.js
-import { test } from '@playwright/test';
-import { TodoServices } from '../services/TodoServices.js';
+import { test } from "@playwright/test";
+import { TodoServices } from "../services/TodoServices.js";
 
 export class ApiFacade {
   constructor(request, token) {
@@ -8,7 +8,7 @@ export class ApiFacade {
   }
 
   async createTodo(todo) {
-    return test.step('Facade: Create todo', async () => {
+    return test.step("Facade: Create todo", async () => {
       const body = await this.todoServices.createTodo(todo);
       if (!body.id) {
         throw new Error(`Failed to create todo: ${JSON.stringify(body)}`);
@@ -21,7 +21,9 @@ export class ApiFacade {
     return test.step(`Facade: Delete todo ${id}`, async () => {
       const status = await this.todoServices.deleteTodo(id);
       if (status !== 200) {
-        throw new Error(`Failed to delete todo with id ${id}, status: ${status}`);
+        throw new Error(
+          `Failed to delete todo with id ${id}, status: ${status}`,
+        );
       }
     });
   }
@@ -37,14 +39,14 @@ export class ApiFacade {
   }
 
   async getAllTodos() {
-    return test.step('Facade: Get all todos', async () => {
+    return test.step("Facade: Get all todos", async () => {
       const body = await this.todoServices.getAllTodos();
       return body.todos || [];
     });
   }
 
   async cleanupAllTodos() {
-    return test.step('Facade: Cleanup all todos', async () => {
+    return test.step("Facade: Cleanup all todos", async () => {
       const todos = await this.getAllTodos();
       for (const todo of todos) {
         if (todo.id) {
