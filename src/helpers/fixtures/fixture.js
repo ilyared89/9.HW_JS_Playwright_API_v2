@@ -1,66 +1,73 @@
-//src/helpers/fixtures/fixture.js
+// src/helpers/fixtures/fixture.js
 import { test as baseTest, expect } from "@playwright/test";
 import { TodoServices } from "../../services/TodoServices.js";
 import { ApiFacade } from "../../facades/ApiFacade.js";
+import { apiAssertions } from "../assertions/apiAssertions.js";
 import fs from "fs";
 import path from "path";
 
 function getToken() {
   const tokenPath = path.join(process.cwd(), ".auth", "token.json");
-
   if (!fs.existsSync(tokenPath)) {
     throw new Error("Token file not found. Run global setup first.");
   }
-
   const tokenData = JSON.parse(fs.readFileSync(tokenPath, "utf-8"));
   return tokenData.token;
 }
 
+const BASE_URL = process.env.BASE_URL || "https://apichallenges.eviltester.com";
+
 export const test = baseTest.extend({
   token: async ({}, use) => {
-    const token = getToken();
-    await use(token);
+    await use(getToken());
   },
 
   todoServices: async ({ request }, use) => {
-    const token = getToken();
-    const services = new TodoServices(request, token);
+    const services = new TodoServices(request, getToken(), BASE_URL);
     await use(services);
   },
 
   apiFacade: async ({ request }, use) => {
-    const token = getToken();
-    const facade = new ApiFacade(request, token);
+    const facade = new ApiFacade(request, getToken(), BASE_URL);
     await use(facade);
   },
 
-  // ✅ Расширяем apiRequest методами для Challenger API
+  assert: async ({}, use) => {
+    await use(apiAssertions);
+  },
+
+  // ✅ ИСПРАВЛЕНО: challengerApi с корректным синтаксисом
   challengerApi: async ({ request, token }, use) => {
     const api = {
-      // Получить данные сессии
-      async getChallengerData(token) {
-        const response = await apiRequest("GET", `/challenger/${token}`);
-        return response.json();
-      },
-
-      // Восстановить сессию
-      async restoreSession(token, data) {
-        const response = await apiRequest("PUT", `/challenger/${token}`, {
-          data: JSON.stringify(data),
+      async getChallengerData(challengerToken) {
+        const response = await request.fetch(`${BASE_URL}/challenger/${challengerToken}`, {
+          method: 'GET',
+          headers: { 'X-CHALLENGER': token }
         });
         return response.json();
       },
 
-      // Создать новую сессию (если нужно)
+      async restoreSession(challengerToken, data) {
+        const response = await request.fetch(`${BASE_URL}/challenger/${challengerToken}`, {
+          method: 'PUT',
+          headers: { 'X-CHALLENGER': token },
+          data: JSON.stringify(data)  // ✅ ДОБАВЛЕНО "data:"
+        });
+        return response.json();
+      },
+
       async createSession() {
-        const response = await apiRequest("POST", "/challenger");
+        const response = await request.fetch(`${BASE_URL}/challenger`, {
+          method: 'POST',
+          //headers: { 'X-CHALLENGER': token }
+        });
         return {
           token: response.headers()["x-challenger"],
-          raw: response,
+          status: response.status(), 
+          raw: response
         };
-      },
+      }
     };
-
     await use(api);
   },
 });

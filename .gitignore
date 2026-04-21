@@ -11,6 +11,7 @@ article-data.json
 /playwright/.auth/
 check-list.js
 burger-order.html
+scripts/debug-challenges.js
 
 # 🖼️ Артефакты тестов (скриншоты, видео)
 *.png

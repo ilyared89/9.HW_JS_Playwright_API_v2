@@ -15,7 +15,13 @@
     "test:get": "playwright test --grep @GET",
     "test:post": "playwright test --grep @POST",
     "test:put": "playwright test --grep @PUT",
-    "test:delete": "playwright test --grep @DELETE"
+    "test:restore": "playwright test --grep @RESTORE",
+    "test:delete": "playwright test --grep @DELETE",
+    "test:all": "playwright test tests/secret.test.js tests/challenger.test.js tests/todos.test.js tests/heartbeat.test.js",
+    "test:secret": "playwright test tests/secret.test.js",
+    "test:challenger": "playwright test tests/challenger.test.js",
+    "test:todos": "playwright test tests/todos.test.js",
+    "test:heartbeat": "playwright test tests/heartbeat.test.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +45,7 @@
     "path": "^0.12.7"
   },
   "dependencies": {
+    "@openrouter/sdk": "^0.12.16",
     "allure": "^3.6.0"
   }
 }

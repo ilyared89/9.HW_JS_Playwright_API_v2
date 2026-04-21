@@ -1,4 +1,4 @@
-// @ts-check
+// playwright.config.js
 import { defineConfig, devices } from '@playwright/test';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -14,9 +14,14 @@ export default defineConfig({
   workers: 1,
   
   globalSetup: './tests/setup/global.setup.js',
+  globalTeardown: './tests/setup/global.teardown.js',
+
   //globalTeardown: './tests/setup/global.teardown.js',
   
-  reporter: 'html',
+   reporter: [
+    ['list'],
+    ['html', { outputFolder: 'playwright-report' }]
+  ],
   
   use: {
     baseURL: 'https://apichallenges.eviltester.com',

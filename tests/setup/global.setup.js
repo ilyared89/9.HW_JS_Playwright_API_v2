@@ -7,8 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default async function globalSetup() {
-  console.log('=== Global Setup: Creating Challenger Session ===');
-  
+
   // Создаем директорию для хранения токена
   const authDir = path.join(process.cwd(), '.auth');
   if (!fs.existsSync(authDir)) {
@@ -36,9 +35,7 @@ export default async function globalSetup() {
   if (!token) {
     throw new Error('X-CHALLENGER token not found in response headers');
   }
-  
-  console.log(`✓ Challenger session created with token: ${token}`);
-  
+    
   // Сохраняем токен в файл
   const tokenData = {
     token: token,
@@ -64,7 +61,7 @@ export default async function globalSetup() {
   if (challengesResponse.status() === 200) {
     const challenges = await challengesResponse.json();
     const completedCount = challenges.challenges.filter(c => c.status).length;
-    console.log(`✓ Challenges loaded: ${completedCount}/${challenges.challenges.length} completed`);
+    //console.log(`✓ Challenges loaded: ${completedCount}/${challenges.challenges.length} completed`);
   }
   
   await apiRequest.dispose();

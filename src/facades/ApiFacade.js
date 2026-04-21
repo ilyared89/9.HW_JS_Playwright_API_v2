@@ -3,8 +3,8 @@ import { test } from "@playwright/test";
 import { TodoServices } from "../services/TodoServices.js";
 
 export class ApiFacade {
-  constructor(request, token) {
-    this.todoServices = new TodoServices(request, token);
+  constructor(request, token, baseURL) {
+    this.todoServices = new TodoServices(request, token, baseURL);
   }
 
   async createTodo(todo) {
@@ -44,17 +44,13 @@ export class ApiFacade {
       return body.todos || [];
     });
   }
-
-  async cleanupAllTodos() {
-    return test.step("Facade: Cleanup all todos", async () => {
-      const todos = await this.getAllTodos();
-      for (const todo of todos) {
-        if (todo.id) {
-          await this.todoServices.deleteTodo(todo.id);
-        }
-      }
-    });
-  }
+  
+// 🔹 Метод для авто-очистки тестовых todos
+async cleanupTestTodos(prefix = 'Test-') {
+  return test.step("Facade: Cleanup test todos", async () => {
+    return await this.services.cleanupTodosByPrefix(prefix);
+  });
+}
 
   get services() {
     return this.todoServices;
