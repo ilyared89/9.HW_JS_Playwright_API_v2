@@ -21,7 +21,8 @@
     "test:secret": "playwright test tests/secret.test.js",
     "test:challenger": "playwright test tests/challenger.test.js",
     "test:todos": "playwright test tests/todos.test.js",
-    "test:heartbeat": "playwright test tests/heartbeat.test.js"
+    "test:heartbeat": "playwright test tests/heartbeat.test.js",
+    "test:debug": "DEBUG=pw:api npx playwright test"
   },
   "repository": {
     "type": "git",

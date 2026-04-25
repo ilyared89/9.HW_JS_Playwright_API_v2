@@ -15,8 +15,6 @@ export default defineConfig({
   
   globalSetup: './tests/setup/global.setup.js',
   globalTeardown: './tests/setup/global.teardown.js',
-
-  //globalTeardown: './tests/setup/global.teardown.js',
   
    reporter: [
     ['list'],
